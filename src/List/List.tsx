@@ -9,14 +9,21 @@ interface Item {
 function List(): JSX.Element {
   const [items, setItems] = useState<Array<Item>>([]);
 
-  const handleClick = () => {
-    const id = new Date().toUTCString();
+  const handleAddItem = () => {
+    const id = `${new Date().toUTCString()}${Math.random()}`;
     setItems([...items, { id, name: '' }]);
+  };
+
+  const handleRemoveItem = () => {
+    items.pop();
+    setItems([...items]);
   };
 
   return (
     <div>
-      <button onClick={handleClick} type="button">Add Item</button>
+      <button onClick={handleAddItem} type="button">Add Item</button>
+
+      <button onClick={handleRemoveItem} type="button">Remove Item</button>
 
       {items.length ? (
         items.map((item) => (
