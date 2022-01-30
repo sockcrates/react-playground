@@ -11,12 +11,27 @@ describe('<List>', () => {
     expect(emptyListText).toBeInTheDocument();
   });
 
-  test('Add to list', async () => {
+  test('Add to list', () => {
     render(<List />);
 
     fireEvent.click(screen.getByText(/Add Item/i));
 
     expect(screen.getByPlaceholderText(/Item name/i)).toBeInTheDocument();
     expect(screen.getByPlaceholderText(/Price \(optional\)/i)).toBeInTheDocument();
+  });
+
+  test('Remove from list', () => {
+    render(<List />);
+
+    fireEvent.click(screen.getByText(/Add Item/i));
+    fireEvent.click(screen.getByText(/Add Item/i));
+    fireEvent.click(screen.getByText(/Add Item/i));
+
+    fireEvent.click(screen.getByText(/Remove Item/i));
+    fireEvent.click(screen.getByText(/Remove Item/i));
+    fireEvent.click(screen.getByText(/Remove Item/i));
+
+    expect(screen.getAllByPlaceholderText(/Item name/i)).not.toBeInTheDocument();
+    expect(screen.getAllByPlaceholderText(/Price \(optional\)/i)).not.toBeInTheDocument();
   });
 });
