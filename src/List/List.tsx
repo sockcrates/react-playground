@@ -26,14 +26,19 @@ function List(): JSX.Element {
 
   return (
     <div className={styles.list}>
-      <button onClick={handleAddItem} type="button">Add Item</button>
+      <div className={styles.listHeader}>
+        Shopping List
 
-      <button onClick={handleRemoveItem} type="button">Remove Item</button>
+        <button className={styles.headerPush} onClick={handleAddItem} type="button">Add Item</button>
+
+        <button onClick={handleRemoveItem} type="button">Remove Item</button>
+      </div>
 
       {items.length ? (
-        <TransitionGroup>
+        <TransitionGroup className={styles.listItem}>
           {items.map((item) => (
             <CSSTransition
+              className={styles.listItem}
               classNames={{
                 enter: styles.listEnter,
                 enterActive: styles.listEnterActive,
@@ -44,21 +49,25 @@ function List(): JSX.Element {
               style={{ '--duration': `${duration}ms` }}
               timeout={duration}
             >
-              <div>
+              <div className={styles.listItem}>
                 <label htmlFor="name">
                   Item name:
-                  <input id="name" placeholder="Item name" type="text" />
+                  <input className={styles.labelPush} id="name" placeholder="Item name" type="text" />
                 </label>
 
                 <label htmlFor="price">
                   Price:
-                  <input id="price" placeholder="Price (optional)" type="text" />
+                  <input className={styles.labelPush} id="price" placeholder="Price (optional)" type="text" />
                 </label>
               </div>
             </CSSTransition>
           ))}
         </TransitionGroup>
-      ) : ('You\'re all done 😃')}
+      ) : (
+        <p className={styles.listEmpty}>
+          You&apos;re all done 😃
+        </p>
+      )}
     </div>
   );
 }
