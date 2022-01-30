@@ -31,7 +31,7 @@ describe('<List>', () => {
     fireEvent.click(screen.getByText(/Remove Item/i));
     fireEvent.click(screen.getByText(/Remove Item/i));
 
-    expect(screen.getAllByPlaceholderText(/Item name/i)).not.toBeInTheDocument();
-    expect(screen.getAllByPlaceholderText(/Price \(optional\)/i)).not.toBeInTheDocument();
+    expect(screen.queryByPlaceholderText(/Item name/i)).toBeNull();
+    expect(screen.queryByPlaceholderText(/Price \(optional\)/i)).toBeNull();
   });
 });
