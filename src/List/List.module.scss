@@ -1,0 +1,21 @@
+.list {
+  display: grid;
+}
+
+.listEnter {
+  opacity: 0;
+}
+
+.listEnterActive {
+  opacity: 1;
+  transition: opacity var(--duration);
+}
+
+.listExit {
+  opacity: 1;
+}
+
+.listExitActive {
+  opacity: 0;
+  transition: opacity var(--duration);
+}
