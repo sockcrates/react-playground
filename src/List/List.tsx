@@ -40,10 +40,11 @@ function List(): JSX.Element {
                 exit: styles.listExit,
                 exitActive: styles.listExitActive,
               }}
+              key={item.id}
               style={{ '--duration': `${duration}ms` }}
               timeout={duration}
             >
-              <div key={item.id}>
+              <div>
                 <label htmlFor="name">
                   Item name:
                   <input id="name" placeholder="Item name" type="text" />
