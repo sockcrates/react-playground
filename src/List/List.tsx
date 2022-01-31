@@ -38,7 +38,6 @@ function List(): JSX.Element {
         <TransitionGroup className={styles.listItem}>
           {items.map((item) => (
             <CSSTransition
-              className={styles.listItem}
               classNames={{
                 enter: styles.listEnter,
                 enterActive: styles.listEnterActive,
@@ -49,13 +48,13 @@ function List(): JSX.Element {
               style={{ '--duration': `${duration}ms` }}
               timeout={duration}
             >
-              <div className={styles.listItem}>
-                <label htmlFor="name">
+              <div className={styles.rowFix}>
+                <label className={styles.firstColumn} htmlFor="name">
                   Item name:
                   <input className={styles.labelPush} id="name" placeholder="Item name" type="text" />
                 </label>
 
-                <label htmlFor="price">
+                <label className={styles.lastColumn} htmlFor="price">
                   Price:
                   <input className={styles.labelPush} id="price" placeholder="Price (optional)" type="text" />
                 </label>
@@ -64,7 +63,7 @@ function List(): JSX.Element {
           ))}
         </TransitionGroup>
       ) : (
-        <p className={styles.listEmpty}>
+        <p className={styles.listColumnSpan}>
           You&apos;re all done 😃
         </p>
       )}
