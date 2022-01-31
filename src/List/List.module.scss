@@ -1,8 +1,25 @@
-.list {
+.container {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
   place-items: center;
+}
+
+.list {
+  @extend .container;
+
+  grid-template-columns: repeat(2, 1fr);
   row-gap: 12px;
+}
+
+.listColumnSpan {
+  grid-column: 1 / -1;
+}
+
+.firstColumn {
+  grid-column: 1;
+}
+
+.lastColumn {
+  grid-column: -1;
 }
 
 .headerPush {
@@ -11,14 +28,15 @@
 }
 
 .listHeader {
+  @extend .listColumnSpan;
+
   display: flex;
-  grid-column: 1 / -1;
   justify-content: space-between;
   width: 100%;
 }
 
-.listEmpty {
-  grid-column: 1 / -1;
+.rowFix {
+  @extend .listHeader;
 }
 
 .listItem {
