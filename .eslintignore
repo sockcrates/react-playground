@@ -1,1 +1,4 @@
-src/react-app-env.d.ts
+config
+scripts
+
+src/react/react-app-env.d.ts
