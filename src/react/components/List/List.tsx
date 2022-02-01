@@ -29,9 +29,9 @@ function List(): JSX.Element {
       <div className={styles.listHeader}>
         Shopping List
 
-        <button className={styles.headerPush} onClick={handleAddItem} type="button">Add Item</button>
+        <button className={styles.headerPush} id="react-add-item" onClick={handleAddItem} type="button">Add Item</button>
 
-        <button onClick={handleRemoveItem} type="button">Remove Item</button>
+        <button id="react-remove-item" onClick={handleRemoveItem} type="button">Remove Item</button>
       </div>
 
       {items.length ? (
@@ -49,14 +49,14 @@ function List(): JSX.Element {
               timeout={duration}
             >
               <div className={styles.rowFix}>
-                <label className={styles.firstColumn} htmlFor="name">
+                <label className={styles.firstColumn} htmlFor={`react-name-${item.id}`}>
                   Item name:
-                  <input className={styles.labelPush} id="name" placeholder="Item name" type="text" />
+                  <input className={styles.labelPush} id={`react-name-${item.id}`} placeholder="Item name" type="text" />
                 </label>
 
-                <label className={styles.lastColumn} htmlFor="price">
+                <label className={styles.lastColumn} htmlFor={`react-price-${item.id}`}>
                   Price:
-                  <input className={styles.labelPush} id="price" placeholder="Price (optional)" type="text" />
+                  <input className={styles.labelPush} id={`react-price-${item.id}`} placeholder="Price (optional)" type="text" />
                 </label>
               </div>
             </CSSTransition>
