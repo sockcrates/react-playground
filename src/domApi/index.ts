@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const addItemButton = document.getElementById('dom-add-item');
   addItemButton?.addEventListener('click', () => {
-    const listItemElement = document.createElement('div');
+    const listItemElement = document.createElement('li');
     listItemElement.className = styles.rowFix;
 
     const fragment = document.createDocumentFragment();
@@ -49,6 +49,8 @@ document.addEventListener('DOMContentLoaded', () => {
     priceLabelElement.appendChild(priceInputElement);
     listItemElement.appendChild(priceLabelElement);
 
+    listItemElement.animate({ opacity: 0, offset: 0 }, { duration: 300 });
+
     listElement?.appendChild(fragment);
   });
 
@@ -56,7 +58,16 @@ document.addEventListener('DOMContentLoaded', () => {
   removeItemButton?.addEventListener('click', () => {
     if (!listElement?.lastChild) return;
 
-    listElement.removeChild(listElement.lastChild);
+    const { lastChild } = listElement;
+
+    if (lastChild instanceof HTMLLIElement) {
+      const exitAnimation = lastChild.animate(
+        { opacity: 0, offset: 1 },
+        { duration: 300 },
+      );
+
+      exitAnimation.finished.then(() => { listElement.removeChild(lastChild); });
+    }
   });
 });
 
