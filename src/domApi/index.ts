@@ -1,6 +1,6 @@
 import styles from '../react/components/List/List.module.scss';
 
-function getId() {
+function getId(): string {
   return `${new Date().toUTCString()}${Math.random()}`;
 }
 

@@ -60,7 +60,7 @@ module.exports = {
   appIndexJs: resolveModule(resolveApp, 'src/react/index'),
   appIndexDomJs: resolveModule(resolveApp, 'src/domApi/index'),
   appPackageJson: resolveApp('package.json'),
-  appSrc: resolveApp('src/react'),
+  appSrc: resolveApp('src'),
   appTsConfig: resolveApp('tsconfig.json'),
   appJsConfig: resolveApp('jsconfig.json'),
   yarnLockFile: resolveApp('yarn.lock'),
