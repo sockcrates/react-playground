@@ -27,7 +27,7 @@
   margin-right: 12px;
 }
 
-.listHeader {
+.listHeaderContainer {
   @extend .listColumnSpan;
 
   display: flex;
@@ -36,7 +36,7 @@
 }
 
 .rowFix {
-  @extend .listHeader;
+  @extend .listHeaderContainer;
 }
 
 .listItem {

@@ -1,6 +1,6 @@
 {
-  "extends": [
-    "airbnb",
+		"extends": [
+		"airbnb",
 		"eslint:recommended",
 		"plugin:@typescript-eslint/eslint-recommended",
 		"plugin:@typescript-eslint/recommended",
@@ -11,51 +11,51 @@
 	],
 	"overrides": [
 		{
-			"files": ["**/*.test.ts", "**/*.test.tsx"],
 			"extends": [
 				"plugin:jest/recommended",
 				"plugin:jest/style",
 				"plugin:jest-dom/recommended",
-        "plugin:testing-library/react"
+				"plugin:testing-library/react"
 			],
-      "rules": {
-        "jest/consistent-test-it": ["error", { "fn": "it" }],
-        "testing-library/await-async-query": "error",
-        "testing-library/await-async-utils": "error",
-        "testing-library/no-await-sync-query": "error",
-        "testing-library/prefer-user-event": "error"
-      }
+			"files": ["**/*.test.ts", "**/*.test.tsx"],
+			"rules": {
+				"jest/consistent-test-it": ["error", { "fn": "it" }],
+				"testing-library/await-async-query": "error",
+				"testing-library/await-async-utils": "error",
+				"testing-library/no-await-sync-query": "error",
+				"testing-library/prefer-user-event": "error"
+			}
 		}
 	],
-    "parser": "@typescript-eslint/parser",
+	"parser": "@typescript-eslint/parser",
 	"plugins": ["@typescript-eslint", "jest"],
 	"root": true,
 	"rules": {
-    "@typescript-eslint/no-shadow": 2,
-		"@typescript-eslint/array-type": [2, { "default": "generic" }],
-		"import/extensions": [
-      2,
-			"ignorePackages",
-			{
-        "js": "never",
-				"jsx": "never",
-				"ts": "never",
-				"tsx": "never"
-			}
-		],
-		"import/no-extraneous-dependencies": [2, { "devDependencies": true }],
-    "no-shadow": 0,
-		"react/jsx-filename-extension": [1, { "extensions": [".tsx", ".ts"] }],
-		"react/require-default-props": [2, { "ignoreFunctionalComponents": true }],
-		"spaced-comment": [
-			2,
-			"always",
-			{
-				"exceptions": [
-					"eslint-enable"
-				]
-			}
-		]
+	"@typescript-eslint/no-shadow": 2,
+	"@typescript-eslint/array-type": [2, { "default": "generic" }],
+	"import/extensions": [
+		2,
+		"ignorePackages",
+		{
+			"js": "never",
+			"jsx": "never",
+			"ts": "never",
+			"tsx": "never"
+		}
+	],
+	"import/no-extraneous-dependencies": [2, { "devDependencies": true }],
+	"no-shadow": 0,
+	"react/jsx-filename-extension": [1, { "extensions": [".tsx", ".ts"] }],
+	"react/require-default-props": [2, { "ignoreFunctionalComponents": true }],
+	"spaced-comment": [
+		2,
+		"always",
+		{
+			"exceptions": [
+				"eslint-enable"
+			]
+		}
+	]
 	},
 	"settings": {
 		"import/resolver": {

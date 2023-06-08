@@ -1,15 +1,15 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { byPlaceholderText, byText } from 'testing-library-selector';
+import { byRole, byText } from 'testing-library-selector';
 import List from './List';
 
 const ui = {
-  addItemButton: byText('Add Item'),
+  addItemButton: byRole('button', { name: 'Add item' }),
   allDoneText: byText("You're all done 😃"),
-  placeholderText: byPlaceholderText('Item name'),
-  pricePlaceholderText: byPlaceholderText('Price (optional)'),
-  removeItemButton: byText('Remove Item'),
+  itemNameInput: byRole('textbox', { name: /Item name/ }),
+  itemPriceInput: byRole('textbox', { name: /Price/ }),
+  removeItemButton: byRole('button', { name: 'Remove item' }),
 };
 
 const renderComponent = () => ({
@@ -29,8 +29,8 @@ describe('<List>', () => {
 
     await user.click(ui.addItemButton.get());
 
-    expect(ui.placeholderText.get()).toBeInTheDocument();
-    expect(ui.pricePlaceholderText.get()).toBeInTheDocument();
+    expect(ui.itemNameInput.get()).toBeInTheDocument();
+    expect(ui.itemPriceInput.get()).toBeInTheDocument();
   });
 
   it('adds and removes items from the list', async () => {
@@ -40,14 +40,14 @@ describe('<List>', () => {
     await user.click(ui.addItemButton.get());
     await user.click(ui.addItemButton.get());
 
-    expect(ui.placeholderText.queryAll()).toHaveLength(3);
-    expect(ui.pricePlaceholderText.queryAll()).toHaveLength(3);
+    expect(ui.itemNameInput.queryAll()).toHaveLength(3);
+    expect(ui.itemPriceInput.queryAll()).toHaveLength(3);
 
     await user.click(ui.removeItemButton.get());
     await user.click(ui.removeItemButton.get());
     await user.click(ui.removeItemButton.get());
 
-    expect(ui.placeholderText.query()).not.toBeInTheDocument();
-    expect(ui.pricePlaceholderText.query()).not.toBeInTheDocument();
+    expect(ui.itemNameInput.query()).not.toBeInTheDocument();
+    expect(ui.itemPriceInput.query()).not.toBeInTheDocument();
   });
 });
