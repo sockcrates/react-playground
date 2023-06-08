@@ -1,37 +1,53 @@
 import React from 'react';
-import { fireEvent, render, screen } from '@testing-library/react';
+import { render } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+import { byPlaceholderText, byText } from 'testing-library-selector';
 import List from './List';
 
+const ui = {
+  addItemButton: byText('Add Item'),
+  allDoneText: byText("You're all done 😃"),
+  placeholderText: byPlaceholderText('Item name'),
+  pricePlaceholderText: byPlaceholderText('Price (optional)'),
+  removeItemButton: byText('Remove Item'),
+};
+
+const renderComponent = () => ({
+  user: userEvent.setup(),
+  ...render(<List />),
+});
+
 describe('<List>', () => {
-  test('Empty list', () => {
-    render(<List />);
+  it('renders an empty list', () => {
+    renderComponent();
 
-    const emptyListText = screen.getByText(/You're all done 😃/i);
-
-    expect(emptyListText).toBeInTheDocument();
+    expect(ui.allDoneText.get()).toBeInTheDocument();
   });
 
-  test('Add to list', () => {
-    render(<List />);
+  it('adds an item to the list', async () => {
+    const { user } = renderComponent();
 
-    fireEvent.click(screen.getByText(/Add Item/i));
+    await user.click(ui.addItemButton.get());
 
-    expect(screen.getByPlaceholderText(/Item name/i)).toBeInTheDocument();
-    expect(screen.getByPlaceholderText(/Price \(optional\)/i)).toBeInTheDocument();
+    expect(ui.placeholderText.get()).toBeInTheDocument();
+    expect(ui.pricePlaceholderText.get()).toBeInTheDocument();
   });
 
-  test('Remove from list', () => {
-    render(<List />);
+  it('adds and removes items from the list', async () => {
+    const { user } = renderComponent();
 
-    fireEvent.click(screen.getByText(/Add Item/i));
-    fireEvent.click(screen.getByText(/Add Item/i));
-    fireEvent.click(screen.getByText(/Add Item/i));
+    await user.click(ui.addItemButton.get());
+    await user.click(ui.addItemButton.get());
+    await user.click(ui.addItemButton.get());
 
-    fireEvent.click(screen.getByText(/Remove Item/i));
-    fireEvent.click(screen.getByText(/Remove Item/i));
-    fireEvent.click(screen.getByText(/Remove Item/i));
+    expect(ui.placeholderText.queryAll()).toHaveLength(3);
+    expect(ui.pricePlaceholderText.queryAll()).toHaveLength(3);
 
-    expect(screen.queryByPlaceholderText(/Item name/i)).toBeNull();
-    expect(screen.queryByPlaceholderText(/Price \(optional\)/i)).toBeNull();
+    await user.click(ui.removeItemButton.get());
+    await user.click(ui.removeItemButton.get());
+    await user.click(ui.removeItemButton.get());
+
+    expect(ui.placeholderText.query()).not.toBeInTheDocument();
+    expect(ui.pricePlaceholderText.query()).not.toBeInTheDocument();
   });
 });
