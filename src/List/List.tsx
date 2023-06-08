@@ -30,18 +30,23 @@ function List(): JSX.Element {
       <div className={styles.listHeaderContainer}>
         <h1>Shopping List</h1>
 
-        <button className={styles.headerPush} onClick={handleAddItem} type="button">
+        <button
+          aria-label="Add item"
+          className={styles.headerPush}
+          onClick={handleAddItem}
+          type="button"
+        >
           Add Item
         </button>
 
-        <button onClick={handleRemoveItem} type="button">
+        <button aria-label="Remove item" onClick={handleRemoveItem} type="button">
           Remove Item
         </button>
       </div>
 
       {items.length ? (
         <TransitionGroup className={styles.listItem}>
-          {items.map((item) => (
+          {items.map(({ id }) => (
             <CSSTransition
               classNames={{
                 enter: styles.listEnter,
@@ -49,26 +54,26 @@ function List(): JSX.Element {
                 exit: styles.listExit,
                 exitActive: styles.listExitActive,
               }}
-              key={item.id}
+              key={id}
               style={{ '--duration': `${duration}ms` }}
               timeout={duration}
             >
               <div className={styles.rowFix}>
-                <label className={styles.firstColumn} htmlFor="name">
+                <label className={styles.firstColumn} htmlFor={`${id}-name`}>
                   Item name:
                   <input
                     className={styles.labelPush}
-                    id="name"
+                    id={`${id}-name`}
                     placeholder="Item name"
                     type="text"
                   />
                 </label>
 
-                <label className={styles.lastColumn} htmlFor="price">
+                <label className={styles.lastColumn} htmlFor={`${id}-price`}>
                   Price:
                   <input
                     className={styles.labelPush}
-                    id="price"
+                    id={`${id}-price`}
                     placeholder="Price (optional)"
                     type="text"
                   />
