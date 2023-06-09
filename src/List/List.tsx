@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { ChangeEvent, useState } from 'react';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import { v4 as uuid } from 'uuid';
 
@@ -11,19 +11,30 @@ interface Item {
 }
 
 function List(): JSX.Element {
-  const [items, setItems] = useState<Array<Item>>([]);
+  const [items, setItems] = useState<Map<string, Item>>(new Map());
 
   const duration = 300;
 
   const handleAddItem = () => {
     const id = uuid();
-    setItems([...items, { id, name: '' }]);
+    setItems(new Map(items.set(id, { id, name: '' })));
   };
 
-  const handleRemoveItem = () => {
-    items.pop();
-    setItems([...items]);
+  const handleItemNameChange = (id: string, name: string) => {
+    const item = items.get(id);
+    if (item) {
+      setItems(new Map(items.set(id, { ...item, name })));
+    }
   };
+
+  const handleItemPriceChange = (id: string, price: number) => {
+    const item = items.get(id);
+    if (item) {
+      setItems(new Map(items.set(id, { ...item, price })));
+    }
+  };
+
+  const handleRemoveItem = () => setItems(new Map(Array.from(items).slice(0, -1)));
 
   return (
     <div className={styles.list}>
@@ -44,9 +55,9 @@ function List(): JSX.Element {
         </button>
       </div>
 
-      {items.length ? (
+      {items.size ? (
         <TransitionGroup className={styles.listItem}>
-          {items.map(({ id }) => (
+          {Array.from(items.entries()).map(([id, { name, price }]) => (
             <CSSTransition
               classNames={{
                 enter: styles.listEnter,
@@ -65,7 +76,11 @@ function List(): JSX.Element {
                     className={styles.labelPush}
                     id={`${id}-name`}
                     placeholder="Item name"
+                    onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                      handleItemNameChange(id, e.target.value)
+                    }
                     type="text"
+                    value={name ?? ''}
                   />
                 </label>
 
@@ -74,8 +89,13 @@ function List(): JSX.Element {
                   <input
                     className={styles.labelPush}
                     id={`${id}-price`}
+                    inputMode="decimal"
+                    onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                      handleItemPriceChange(id, e.target.valueAsNumber)
+                    }
                     placeholder="Price (optional)"
-                    type="text"
+                    type="number"
+                    value={price ?? ''}
                   />
                 </label>
               </div>
