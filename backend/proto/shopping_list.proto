@@ -1,0 +1,11 @@
+import "google/protobuf/empty.proto";
+
+message Item {
+    required string name = 1;
+    optional float price = 2;
+}
+
+service ShoppingList {
+    rpc GetItem (Item) returns (Item);
+    rpc SetItem (Item) returns (google.protobuf.Empty);
+}
