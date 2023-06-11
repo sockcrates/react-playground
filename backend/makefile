@@ -1,4 +1,3 @@
-# Define variables
 GRPC_DIR = ./lib/grpc
 GRPC_BUILD_DIR = $(GRPC_DIR)/cmake/build
 GRPC_INSTALL_DIR = $(shell echo $$HOME)/.local
@@ -16,7 +15,6 @@ ifeq ($(UNAME), Linux)
 	@which build-essential autoconf libtool pkg-config
 endif
 
-# Rule to build gRPC libraries
 grpc:
 	cd $(GRPC_DIR) && \
 	mkdir -p $(GRPC_BUILD_DIR) && \
@@ -33,17 +31,14 @@ grpc:
 	make -j && \
 	make install
 
-# Rule to generate C++ files from protobuf and gRPC
 protobuf/grpc:
 	mkdir -p build/proto
 	protoc -I ./proto --grpc_out=./build/proto --plugin=protoc-gen-grpc=`which grpc_cpp_plugin` \
 		./proto/shopping_list.proto
 
-# Rule to build the executable
 protobuf/c:
 	mkdir -p build/proto
 	protoc -I ./proto --cpp_out=./build/proto ./proto/shopping_list.proto
 
-# Rule to clean up generated files
 clean:
 	rm -rf build
