@@ -3,7 +3,6 @@ GRPC_REPO = https://github.com/grpc/grpc.git
 GRPC_DIR = ./grpc
 GRPC_BUILD_DIR = $(GRPC_DIR)/cmake/build
 GRPC_INSTALL_DIR = $(shell echo $$HOME)/.local
-GRPC_VER = v1.55.0
 PROTO_SRC = ./backend/proto/todo.proto
 PROTO_HDR = ./backend/proto/todo.pb.h
 PROTO_SRC_CC = ./backend/proto/todo.pb.cc
@@ -19,7 +18,6 @@ EXEC = todo
 
 # Rule to build gRPC libraries
 grpc:
-    git clone --recurse-submodules -b $(GRPC_VER) --depth 1 --shallow-submodules $(GRPC_REPO) $(GRPC_DIR)
     cd $(GRPC_DIR)
 	mkdir -p $(GRPC_BUILD_DIR)
 	pushd $(GRPC_BUILD_DIR)
@@ -38,10 +36,12 @@ grpc:
 	popd
 
 # Rule to generate C++ files from protobuf and gRPC
+protobuf:
 $(PROTO_SRC_CC) $(PROTO_HDR) $(GRPC_SRC_CC) $(GRPC_HDR): $(PROTO_SRC)
     $(PROTOC) $(PROTOC_FLAGS) $(PROTO_SRC)
 
 # Rule to build the executable
+
 $(EXEC): $(OBJS)
     $(CXX) $(CXXFLAGS) $(OBJS) -o $(EXEC) `pkg-config --cflags --libs protobuf grpc++`
 
