@@ -1,5 +1,7 @@
 const std = @import("std");
 
+const GCC_INCLUDE_PATH_VAR = "GCC_INCLUDE_PATH";
+
 pub fn build(b: *std.build.Builder) void {
     // Standard target options allows the person running `zig build` to choose
     // what target to build for. Here we do not override the defaults, which
@@ -14,6 +16,25 @@ pub fn build(b: *std.build.Builder) void {
     const exe = b.addExecutable("backend", "src/main.zig");
     exe.setTarget(target);
     exe.setBuildMode(mode);
+
+    exe.addIncludePath("src");
+
+    const maybeGccIncludePath = std.os.getenv(GCC_INCLUDE_PATH_VAR) orelse {
+        std.log.err(
+            "Environment variable " ++
+                GCC_INCLUDE_PATH_VAR ++
+                " not set. This may cause build errors.\n",
+            .{},
+        );
+        return;
+    };
+    exe.addIncludePath(maybeGccIncludePath);
+
+    exe.addCSourceFile("src/shopping_list_server.cc", &.{});
+
+    exe.linkSystemLibrary("c++");
+    exe.linkSystemLibrary("");
+
     exe.install();
 
     const run_cmd = exe.run();
