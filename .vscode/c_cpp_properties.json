@@ -1,0 +1,17 @@
+{
+    "configurations": [
+        {
+            "name": "My Configuration",
+            "includePath": [
+                "${workspaceFolder}/**",
+                "${workspaceFolder}/backend/proto/build"
+            ],
+            "compilerPath": "/usr/bin/gcc",
+            "cStandard": "c23",
+            "defines": [],
+            "cppStandard": "c++23",
+            "intelliSenseMode": "gcc-x64"
+        }
+    ],
+    "version": 4
+}
