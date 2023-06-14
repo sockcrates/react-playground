@@ -4,6 +4,7 @@ GRPC_INSTALL_DIR = $(shell echo $$HOME)/.local
 OPENSSL_ROOT_DIR = $(shell which openssl)
 UNAME = $(shell uname)
 SRCS = $(wildcard ./backend/src/*.cpp) $(PROTO_SRC_CC) $(GRPC_SRC_CC)
+TARGET = x86_64-linux-gnu
 
 all: deps grpc protobuf/grpc protobuf/c
 
@@ -31,14 +32,17 @@ grpc:
 	make -j && \
 	make install
 
+protobuf: protobuf/grpc protobuf/c
+
 protobuf/grpc:
-	mkdir -p build/proto
-	protoc -I ./proto --grpc_out=./build/proto --plugin=protoc-gen-grpc=`which grpc_cpp_plugin` \
+	protoc -I ./proto --grpc_out=./proto/build --plugin=protoc-gen-grpc=`which grpc_cpp_plugin` \
 		./proto/shopping_list.proto
 
 protobuf/c:
-	mkdir -p build/proto
-	protoc -I ./proto --cpp_out=./build/proto ./proto/shopping_list.proto
+	protoc -I ./proto --cpp_out=./proto/build ./proto/shopping_list.proto
+
+shoppingList:
+	zig build -Dtarget=$(TARGET)
 
 clean:
 	rm -rf build
