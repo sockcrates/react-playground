@@ -1,6 +1,7 @@
 GRPC_DIR = ./lib/grpc
 GRPC_BUILD_DIR = $(GRPC_DIR)/cmake/build
 GRPC_INSTALL_DIR = $(shell echo $$HOME)/.local
+GRPC_INCLUDE_DIR = $(GRPC_INSTALL_DIR)/include
 OPENSSL_ROOT_DIR = $(shell which openssl)
 UNAME = $(shell uname)
 SRCS = $(wildcard ./backend/src/*.cpp) $(PROTO_SRC_CC) $(GRPC_SRC_CC)
@@ -42,6 +43,7 @@ protobuf/c:
 	protoc -I ./proto --cpp_out=./proto/build ./proto/shopping_list.proto
 
 shoppingList:
+	export GCC_INCLUDE_PATH=$(GRPC_INCLUDE_DIR) && \
 	zig build -Dtarget=$(TARGET)
 
 clean:

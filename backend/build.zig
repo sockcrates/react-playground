@@ -23,7 +23,7 @@ pub fn build(b: *std.build.Builder) void {
         std.log.err(
             "Environment variable " ++
                 GCC_INCLUDE_PATH_VAR ++
-                " not set. This may cause build errors.\n",
+                " not set. Aborting build.\n",
             .{},
         );
         return;
@@ -33,7 +33,6 @@ pub fn build(b: *std.build.Builder) void {
     exe.addCSourceFile("src/shopping_list_server.cc", &.{});
 
     exe.linkSystemLibrary("c++");
-    exe.linkSystemLibrary("");
 
     exe.install();
 
